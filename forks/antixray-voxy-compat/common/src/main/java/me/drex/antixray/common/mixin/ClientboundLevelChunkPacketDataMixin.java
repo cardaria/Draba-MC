@@ -1,0 +1,62 @@
+package me.drex.antixray.common.mixin;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
+import me.drex.antixray.common.util.Arguments;
+import me.drex.antixray.common.util.ChunkPacketInfo;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundLevelChunkPacketData;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.LevelChunkSection;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(ClientboundLevelChunkPacketData.class)
+public abstract class ClientboundLevelChunkPacketDataMixin {
+    @Shadow
+    @Final
+    private byte[] buffer;
+
+    @Inject(
+        method = "<init>(Lnet/minecraft/world/level/chunk/LevelChunk;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/network/protocol/game/ClientboundLevelChunkPacketData;extractChunkData(Lnet/minecraft/network/FriendlyByteBuf;Lnet/minecraft/world/level/chunk/LevelChunk;)V"
+        )
+    )
+    private void setChunkPacketInfoBuffer(LevelChunk levelChunk, CallbackInfo ci) {
+        if (Arguments.PACKET_INFO.isBound()) {
+            ChunkPacketInfo<BlockState> chunkPacketInfo = Arguments.PACKET_INFO.get();
+            if (chunkPacketInfo != null) {
+                chunkPacketInfo.setBuffer(this.buffer);
+            }
+        }
+    }
+
+    @Inject(method = "extractChunkData", at = @At("HEAD"))
+    private static void initializeChunkSectionIndex(FriendlyByteBuf friendlyByteBuf, LevelChunk levelChunk, CallbackInfo ci, @Share("chunkSectionIndex") LocalIntRef chunkSectionIndexRef) {
+        chunkSectionIndexRef.set(0);
+    }
+
+    @WrapOperation(
+        method = "extractChunkData",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/chunk/LevelChunkSection;write(Lnet/minecraft/network/FriendlyByteBuf;)V"
+        )
+    )
+    private static void setChunkSectionIndexArgument(LevelChunkSection instance, FriendlyByteBuf friendlyByteBuf, Operation<Void> original, @Share("chunkSectionIndex") LocalIntRef chunkSectionIndexRef) {
+        int chunkSectionIndex = chunkSectionIndexRef.get();
+
+        ScopedValue.where(Arguments.CHUNK_SECTION_INDEX, chunkSectionIndex).run(() -> original.call(instance, friendlyByteBuf));
+
+        chunkSectionIndexRef.set(chunkSectionIndex + 1);
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "spectator_disclosure",
+  "version": "${version}",
+  "name": "Spectator Disclosure",
+  "description": "Adds a permission-controlled /watch command and anonymously discloses active spectator counts.",
+  "authors": ["Cardaria"],
+  "license": "All-Rights-Reserved",
+  "environment": "server",
+  "entrypoints": {
+    "main": ["xyz.draba.spectatordisclosure.SpectatorDisclosure"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.1.2",
+    "java": ">=25",
+    "fabric-api": "*",
+    "draba_spectate": ">=1.0.1+26.1.2"
+  }
+}

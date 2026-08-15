@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "xyz.draba.resources.client.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "PackMixin",
+    "PackRepositoryMixin",
+    "PackSelectionModelMixin",
+    "PackSelectionScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

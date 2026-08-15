@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "draba_hardcore",
+  "version": "${version}",
+  "name": "Draba Hardcore",
+  "description": "Hardcore death cooldown, locked player spectating, and per-stack contribution ownership for Draba X SMP.",
+  "authors": ["Cardaria"],
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["xyz.draba.hardcore.DrabaHardcore"],
+    "client": ["xyz.draba.hardcore.client.HardcoreClient"]
+  },
+  "mixins": ["draba-hardcore.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.1.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "me.drex.antixray.fabric.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"plugin": "me.drex.antixray.fabric.FabricMixinPlugin",
+	"mixins": [
+		"debug.PalettedContainerAccessor"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

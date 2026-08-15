@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "draba_welcome",
+  "version": "${version}",
+  "name": "Draba Welcome",
+  "description": "Clean, server-aware welcomes and player tools for the Draba network.",
+  "authors": ["Cardaria"],
+  "license": "All-Rights-Reserved",
+  "environment": "server",
+  "entrypoints": {
+    "main": ["xyz.draba.welcome.DrabaWelcome"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.1.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

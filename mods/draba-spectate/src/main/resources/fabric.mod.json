@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "draba_spectate",
+  "version": "${version}",
+  "name": "Draba Spectate",
+  "description": "Safe player-locked spectating and a compact Draba network status display.",
+  "authors": ["Cardaria"],
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["xyz.draba.spectate.DrabaSpectate"],
+    "client": ["xyz.draba.spectate.client.DrabaSpectateClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.1.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

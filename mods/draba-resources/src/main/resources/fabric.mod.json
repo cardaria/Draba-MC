@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "draba_resources",
+  "version": "${version}",
+  "name": "Draba Resources",
+  "description": "Keeps Draba's managed visual resource packs active under one clean server-aware entry.",
+  "authors": ["Cardaria"],
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["xyz.draba.resources.client.DrabaResourcesClient"]
+  },
+  "mixins": [
+    "draba-resources.client.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.1.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

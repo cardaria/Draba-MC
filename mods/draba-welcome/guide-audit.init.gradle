@@ -1,0 +1,16 @@
+allprojects {
+    afterEvaluate { project ->
+        if (project == rootProject) {
+            tasks.register('guideAudit', JavaExec) {
+                dependsOn testClasses
+                classpath = sourceSets.test.runtimeClasspath
+                mainClass = 'xyz.draba.welcome.GuideBookAudit'
+            }
+            tasks.register('todoAudit', JavaExec) {
+                dependsOn testClasses
+                classpath = sourceSets.test.runtimeClasspath
+                mainClass = 'xyz.draba.welcome.TodoFeatureAudit'
+            }
+        }
+    }
+}

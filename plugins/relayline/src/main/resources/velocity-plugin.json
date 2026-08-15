@@ -1,0 +1,9 @@
+{
+  "id": "relayline",
+  "name": "RelayLine",
+  "version": "1.4.2-draba.1",
+  "description": "Relays chat across Velocity servers while keeping configured protocol messages local.",
+  "authors": ["GroundPlayz", "Cardaria"],
+  "dependencies": [],
+  "main": "net.groundplayz.relayline.RelayLinePlugin"
+}

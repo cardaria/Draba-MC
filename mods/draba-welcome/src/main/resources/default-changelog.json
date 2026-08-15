@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {
+      "number": 1,
+      "date": "2026-01-01",
+      "title": "Example Update",
+      "changes": [
+        "Replace this bundled example with the initial public changelog for your server."
+      ]
+    }
+  ]
+}

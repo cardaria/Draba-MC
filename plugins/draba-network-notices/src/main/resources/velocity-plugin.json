@@ -1,0 +1,9 @@
+{
+  "id": "draba-network-notices",
+  "name": "Draba Network Notices",
+  "version": "1.3.0",
+  "description": "Provides Draba network notices, branded disconnects, and live status details.",
+  "authors": ["Cardaria"],
+  "dependencies": [],
+  "main": "xyz.draba.network.DrabaNetworkNotices"
+}

@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  gradle:
+    name: ${{ matrix.project }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - mods/draba-hardcore
+          - mods/draba-resources
+          - mods/draba-spectate
+          - mods/draba-welcome
+          - mods/spectator-disclosure
+          - forks/antixray-voxy-compat
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: gradle
+      - name: Build Spectator Disclosure dependency
+        if: matrix.project == 'mods/spectator-disclosure'
+        working-directory: mods/draba-spectate
+        run: |
+          chmod +x gradlew
+          ./gradlew clean build --no-daemon
+      - name: Build and test
+        working-directory: ${{ matrix.project }}
+        run: |
+          chmod +x gradlew
+          ./gradlew clean build --no-daemon
