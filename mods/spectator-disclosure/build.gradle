@@ -17,7 +17,10 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    compileOnly files('../draba-spectate/build/libs/draba-spectate-1.0.11+26.1.2.jar')
+    compileOnly fileTree(
+            dir: '../draba-spectate/build/libs',
+            include: ['draba-spectate-*.jar'],
+            exclude: ['*-sources.jar'])
 }
 
 processResources {
