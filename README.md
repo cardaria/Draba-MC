@@ -8,7 +8,7 @@ This repository contains the source for the custom Minecraft mods and proxy plug
 | --- | --- | --- |
 | `mods/draba-hardcore` | Fabric | Hardcore cooldowns, controlled spectating, and contribution-based item ownership |
 | `mods/draba-resources` | Fabric client | Managed resource-pack ordering and server-aware icons |
-| `mods/draba-spectate` | Fabric | Safe player spectating and a compact network status interface |
+| `mods/draba-spectate` | Fabric | Safe player spectating, origin-aware proximity voice, and network status |
 | `mods/draba-welcome` | Fabric server | Welcome messages, player guide, changelog, and private todo tools |
 | `mods/spectator-disclosure` | Fabric server | Permission-controlled watching with anonymous spectator counts |
 | `plugins/draba-network-notices` | Velocity | Cross-server presence notices and status metadata |

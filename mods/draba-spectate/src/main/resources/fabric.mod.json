@@ -9,12 +9,16 @@
   "environment": "*",
   "entrypoints": {
     "main": ["xyz.draba.spectate.DrabaSpectate"],
-    "client": ["xyz.draba.spectate.client.DrabaSpectateClient"]
+    "client": ["xyz.draba.spectate.client.DrabaSpectateClient"],
+    "voicechat": ["xyz.draba.spectate.SpectateVoicePlugin"]
   },
   "depends": {
     "fabricloader": ">=0.19.3",
     "minecraft": "~26.1.2",
     "java": ">=25",
     "fabric-api": "*"
+  },
+  "suggests": {
+    "voicechat": ">=2.6.20"
   }
 }

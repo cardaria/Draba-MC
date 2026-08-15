@@ -79,6 +79,7 @@ public final class DrabaSpectate implements ModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTED.register(startedServer -> {
             server = startedServer;
+            refreshVoiceState(startedServer);
             if (store.size() > 0) {
                 LOGGER.warn("Loaded {} interrupted spectate session(s) for safe recovery", store.size());
             }
@@ -88,6 +89,7 @@ public final class DrabaSpectate implements ModInitializer {
             ACTIVE_SESSIONS.clear();
             ARMING_SESSIONS.clear();
             LAST_DAMAGE_TICKS.clear();
+            SpectateVoiceState.clear();
             ClientModPolicy.onServerStopped();
             server = null;
             tickCounter = 0;
@@ -177,6 +179,7 @@ public final class DrabaSpectate implements ModInitializer {
             }
             enforceSession(observer);
         }
+        refreshVoiceState(minecraftServer);
 
         if (tickCounter % 20 == 0) {
             LAST_DAMAGE_TICKS.entrySet().removeIf(entry ->
@@ -219,6 +222,7 @@ public final class DrabaSpectate implements ModInitializer {
         }
         session.targetId = selected;
         attachToSelectedTarget(player, session, targets);
+        refreshVoiceState(server);
         sendState(player);
     }
 
@@ -382,9 +386,12 @@ public final class DrabaSpectate implements ModInitializer {
             rejectStart(player, "Spectate cancelled because that player is no longer available.");
             return;
         }
+        SpectateVoiceRouting.VoicePosition voiceOrigin = voicePosition(player);
         VoxyWorldLease originWorldLease = VoxyWorldLease.acquire(player.level());
-        ActiveSession session = new ActiveSession(origin, selected.getUUID(), originWorldLease);
+        ActiveSession session = new ActiveSession(
+                origin, selected.getUUID(), originWorldLease, voiceOrigin);
         ACTIVE_SESSIONS.put(player.getUUID(), session);
+        refreshVoiceState(server);
         try {
             player.closeContainer();
             if (player.getCamera() != player) {
@@ -392,6 +399,7 @@ public final class DrabaSpectate implements ModInitializer {
             }
             player.setGameMode(GameType.SPECTATOR);
             attachToSelectedTarget(player, session, targets);
+            refreshVoiceState(server);
             sendState(player);
             LOGGER.info("{} started voluntarily spectating {}",
                     player.getGameProfile().name(), selected.getGameProfile().name());
@@ -501,6 +509,32 @@ public final class DrabaSpectate implements ModInitializer {
         }
         LOGGER.info("{} stopped voluntarily spectating; restored={}, recoveryRetained={}",
                 player.getGameProfile().name(), restored, retainRecoveryUntilNextJoin);
+        refreshVoiceState(server);
+    }
+
+    private static void refreshVoiceState(MinecraftServer minecraftServer) {
+        if (minecraftServer == null) {
+            SpectateVoiceState.clear();
+            return;
+        }
+        Map<UUID, SpectateVoiceRouting.VoicePosition> players = new HashMap<>();
+        for (ServerPlayer player : minecraftServer.getPlayerList().getPlayers()) {
+            players.put(player.getUUID(), voicePosition(player));
+        }
+        Map<UUID, SpectateVoiceState.Session> sessions = new HashMap<>();
+        for (Map.Entry<UUID, ActiveSession> entry : ACTIVE_SESSIONS.entrySet()) {
+            ActiveSession session = entry.getValue();
+            sessions.put(entry.getKey(), new SpectateVoiceState.Session(
+                    session.originVoice, session.targetId));
+        }
+        SpectateVoiceState.publish(sessions, players);
+    }
+
+    private static SpectateVoiceRouting.VoicePosition voicePosition(ServerPlayer player) {
+        Vec3 position = player.getEyePosition();
+        return new SpectateVoiceRouting.VoicePosition(
+                player.level().dimension().identifier().toString(),
+                position.x(), position.y(), position.z());
     }
 
     private static boolean restoreOrigin(ServerPlayer player, StoredSession origin) {
@@ -656,13 +690,18 @@ public final class DrabaSpectate implements ModInitializer {
     private static final class ActiveSession {
         private final StoredSession origin;
         private final VoxyWorldLease originWorldLease;
+        private final SpectateVoiceRouting.VoicePosition originVoice;
         private UUID targetId;
 
         private ActiveSession(
-                StoredSession origin, UUID targetId, VoxyWorldLease originWorldLease) {
+                StoredSession origin,
+                UUID targetId,
+                VoxyWorldLease originWorldLease,
+                SpectateVoiceRouting.VoicePosition originVoice) {
             this.origin = origin;
             this.targetId = targetId;
             this.originWorldLease = originWorldLease;
+            this.originVoice = originVoice;
         }
     }
 

@@ -183,6 +183,7 @@ final class GuideBook {
                     paragraph("This command is permission-controlled and uses the same 5-second safety countdown.")),
             page(null, "Watch Privacy",
                     paragraph("The watched player sees an anonymous spectator count, but not your identity."),
+                    paragraph("Proximity voice stays at your saved position, not theirs."),
                     tip("Use /watch stop when you are finished.")),
             page(null, "Troubleshooting",
                     paragraph("First, let AutoModpack finish. Then fully restart Minecraft."),
