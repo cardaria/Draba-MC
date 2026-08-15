@@ -77,4 +77,4 @@ This mod is a port of
 Papers [Async Anti Xray Patch](https://github.com/PaperMC/Paper/blob/7a64b85f9274f9a01103faafcfceb89a8b5777de/patches/server/0344-Anti-Xray.patch)
 from 1.17
 and [it's 1.14 patch](https://github.com/PaperMC/Paper/blob/ver/1.14/Spigot-Server-Patches/0397-Anti-Xray.patch#L1379)
-for networking code, to fabric and forge
+for networking code, to Fabric

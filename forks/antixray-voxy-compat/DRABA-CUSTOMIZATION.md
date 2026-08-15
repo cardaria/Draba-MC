@@ -17,5 +17,6 @@ This tree is based on the official MIT-licensed AntiXray tag
 ./gradlew clean build
 ```
 
-Deploy the Fabric jar from `fabric/build/libs/`; never deploy a sources or dev jar.
+This fork intentionally contains only the shared and Fabric modules used by Draba.
+Deploy the jar from `fabric/build/libs/`; never deploy a sources or dev jar.
 Keep the official upstream artifact available for rollback.

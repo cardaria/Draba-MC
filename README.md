@@ -13,7 +13,7 @@ This repository contains the source for the custom Minecraft mods and proxy plug
 | `mods/spectator-disclosure` | Fabric server | Permission-controlled watching with anonymous spectator counts |
 | `plugins/draba-network-notices` | Velocity | Cross-server presence notices and status metadata |
 | `plugins/relayline` | Velocity | Local-message support added to the RelayLine chat bridge |
-| `forks/antixray-voxy-compat` | Fabric and NeoForge | AntiXray compatibility fixes for Voxy WorldGen |
+| `forks/antixray-voxy-compat` | Fabric | AntiXray compatibility fixes for Voxy WorldGen |
 
 ## Building
 
